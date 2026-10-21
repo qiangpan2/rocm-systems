@@ -1274,6 +1274,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL2C
           event: 101
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL2C
+          event: 96
     - name: GL2C_EA_RDREQ_96B_sum
       description: Number of 96-byte GL2C/EA read requests. Sum over GL2C instances.
       properties: []
@@ -1295,6 +1301,11 @@ rocprofiler-sdk:
             - gfx1153
             - gfx1170
             - gfx1171
+          expression: reduce(GL2C_EA_RDREQ_96B,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL2C_EA_RDREQ_96B,sum)
     - name: GL2C_EA_WRREQ
       description: Number of transactions (all sizes) going over the GL2C_EA_WRREQ interface for all
@@ -1549,6 +1560,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL2C
           event: 83
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL2C
+          event: 79
     - name: GL2C_MC_WRREQ_STALL
       description: Number of cycles a write request was stalled.
       properties: []
@@ -1600,6 +1617,11 @@ rocprofiler-sdk:
             - gfx1153
             - gfx1170
             - gfx1171
+          expression: reduce(GL2C_MC_WRREQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL2C_MC_WRREQ,sum)
     - name: GL2C_MISS
       description: Number of cache misses.  UC reads count as misses.
@@ -3579,6 +3601,12 @@ rocprofiler-sdk:
             - gfx1250
           block: SQ
           event: 663
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: SQ
+          event: 326
     - name: SQC_DCACHE_INPUT_VALID_READYB
       description: Input stalled by SQC (per-SQ, nondeterministic, unwindowed)
       properties: []
@@ -3630,6 +3658,12 @@ rocprofiler-sdk:
             - gfx1250
           block: SQ
           event: 664
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: SQ
+          event: 327
     - name: SQC_DCACHE_MISSES_DUPLICATE
       description: Number of misses that were duplicates (access to a non-resident, miss pending 
         CL). (per-SQ, per-Bank, nondeterministic)
@@ -3681,6 +3715,12 @@ rocprofiler-sdk:
             - gfx1250
           block: SQ
           event: 662
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: SQ
+          event: 325
     - name: SQC_DCACHE_REQ_READ_1
       description: Number of constant cache 1 dw read requests. (per-SQ)
       properties: []
@@ -4073,6 +4113,12 @@ rocprofiler-sdk:
             - gfx1171
           block: SQ
           event: 284
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: SQ
+          event: 316
     - name: SQC_TC_DATA_WRITE_REQ
       description: Number of data write requests to the TC (No-Masking, nondeterministic)
       properties: []
@@ -4108,6 +4154,12 @@ rocprofiler-sdk:
             - gfx1171
           block: SQ
           event: 283
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: SQ
+          event: 315
     - name: SQC_TC_REQ
       description: Total number of TC requests that were issued by instruction and constant caches. 
         (No-Masking, nondeterministic)
@@ -14210,6 +14262,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GCEA
           event: 0
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GCEA
+          event: 0
     - name: GCEA_ALWAYS_COUNT_sum
       description: ''
       properties: []
@@ -14220,6 +14278,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GCEA_ALWAYS_COUNT,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GCEA_ALWAYS_COUNT,sum)
     - name: GCEA_PRB_REQ
       description: ''
@@ -14325,6 +14388,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GCEA
           event: 77
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GCEA
+          event: 77
     - name: GCEA_RDRAM_SIZE_REQ_sum
       description: ''
       properties: []
@@ -14335,6 +14404,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GCEA_RDRAM_SIZE_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GCEA_RDRAM_SIZE_REQ,sum)
     - name: GCEA_RRET_VLD
       description: ''
@@ -14371,6 +14445,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GCEA
           event: 62
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GCEA
+          event: 62
     - name: GCEA_SARB_BUSY_sum
       description: ''
       properties: []
@@ -14381,6 +14461,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GCEA_SARB_BUSY,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GCEA_SARB_BUSY,sum)
     - name: GCEA_SARB_DRAM_REQ_PER_VC
       description: ''
@@ -14440,6 +14525,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GCEA
           event: 63
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GCEA
+          event: 63
     - name: GCEA_SARB_STALLED_sum
       description: ''
       properties: []
@@ -14450,6 +14541,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GCEA_SARB_STALLED,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GCEA_SARB_STALLED,sum)
     - name: GCEA_SARB_STARVING
       description: ''
@@ -14544,6 +14640,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GCEA
           event: 78
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GCEA
+          event: 78
     - name: GCEA_WDRAM_SIZE_REQ_sum
       description: ''
       properties: []
@@ -14554,6 +14656,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GCEA_WDRAM_SIZE_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GCEA_WDRAM_SIZE_REQ,sum)
     - name: GCEA_WRET_VLD
       description: ''
@@ -14590,6 +14697,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 1
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 1
     - name: GL1C_BUSY_sum
       description: ''
       properties: []
@@ -14600,6 +14713,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL1C_BUSY,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL1C_BUSY,sum)
     - name: GL1C_CYCLE
       description: ''
@@ -14613,6 +14731,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 0
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 0
     - name: GL1C_CYCLE_sum
       description: ''
       properties: []
@@ -14623,6 +14747,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL1C_CYCLE,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL1C_CYCLE,sum)
     - name: GL1C_GL2_REQ_READ
       description: ''
@@ -14648,6 +14777,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 5
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 12
     - name: GL1C_GL2_REQ_READ_128B_sum
       description: ''
       properties: []
@@ -14658,6 +14793,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL1C_GL2_REQ_READ_128B,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL1C_GL2_REQ_READ_128B,sum)
     - name: GL1C_GL2_REQ_READ_32B
       description: ''
@@ -14671,6 +14811,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 6
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 13
     - name: GL1C_GL2_REQ_READ_32B_sum
       description: ''
       properties: []
@@ -14681,6 +14827,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL1C_GL2_REQ_READ_32B,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL1C_GL2_REQ_READ_32B,sum)
     - name: GL1C_GL2_REQ_READ_64B
       description: ''
@@ -14694,6 +14845,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 7
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 14
     - name: GL1C_GL2_REQ_READ_64B_sum
       description: ''
       properties: []
@@ -14704,6 +14861,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL1C_GL2_REQ_READ_64B,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL1C_GL2_REQ_READ_64B,sum)
     - name: GL1C_GL2_REQ_READ_LATENCY
       description: ''
@@ -14763,6 +14925,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 10
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 16
     - name: GL1C_GL2_REQ_WRITE_32B_sum
       description: ''
       properties: []
@@ -14773,6 +14941,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL1C_GL2_REQ_WRITE_32B,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL1C_GL2_REQ_WRITE_32B,sum)
     - name: GL1C_GL2_REQ_WRITE_64B
       description: ''
@@ -14786,6 +14959,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 11
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 17
     - name: GL1C_GL2_REQ_WRITE_64B_sum
       description: ''
       properties: []
@@ -14796,6 +14975,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL1C_GL2_REQ_WRITE_64B,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL1C_GL2_REQ_WRITE_64B,sum)
     - name: GL1C_GL2_REQ_WRITE_LATENCY
       description: ''
@@ -14843,6 +15027,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 14
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 6
     - name: GL1C_REQ_MISS
       description: ''
       properties: []
@@ -14923,6 +15113,11 @@ rocprofiler-sdk:
             - gfx1170
             - gfx1171
           expression: reduce(GL1C_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          expression: reduce(GL1C_REQ,sum)
     - name: GL1C_STALL_GL2_GL1
       description: ''
       properties: []
@@ -14935,6 +15130,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL1C
           event: 31
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL1C
+          event: 18
     - name: GL1C_STALL_GL2_GL1_sum
       description: ''
       properties: []
@@ -14945,6 +15146,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL1C_STALL_GL2_GL1,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL1C_STALL_GL2_GL1,sum)
     - name: GL1C_STALL_LFIFO_FULL
       description: ''
@@ -15231,6 +15437,12 @@ rocprofiler-sdk:
             - gfx1250
           block: GL2C
           event: 69
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL2C
+          event: 2
     - name: GL2C_BUSY_sum
       description: ''
       properties: []
@@ -15241,6 +15453,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL2C_BUSY,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL2C_BUSY,sum)
     - name: GL2C_COMPRESSED_READ_96_REQ
       description: ''
@@ -15254,6 +15471,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL2C
           event: 81
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL2C
+          event: 77
     - name: GL2C_COMPRESSED_READ_96_REQ_sum
       description: ''
       properties: []
@@ -15264,6 +15487,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL2C_COMPRESSED_READ_96_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL2C_COMPRESSED_READ_96_REQ,sum)
     - name: GL2C_CYCLE
       description: Number of cycles. Not windowable.
@@ -15281,6 +15509,12 @@ rocprofiler-sdk:
             - gfx1250
           block: GL2C
           event: 68
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL2C
+          event: 1
     - name: GL2C_CYCLE_sum
       description: ''
       properties: []
@@ -15291,6 +15525,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL2C_CYCLE,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL2C_CYCLE,sum)
     - name: GL2C_EA_RDREQ_DRAM
       description: ''
@@ -15374,6 +15613,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL2C
           event: 75
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL2C
+          event: 71
     - name: GL2C_READ_128_REQ_sum
       description: ''
       properties: []
@@ -15384,6 +15629,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL2C_READ_128_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL2C_READ_128_REQ,sum)
     - name: GL2C_READ_32_REQ
       description: ''
@@ -15401,6 +15651,12 @@ rocprofiler-sdk:
             - gfx1250
           block: GL2C
           event: 94
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL2C
+          event: 69
     - name: GL2C_READ_32_REQ_sum
       description: ''
       properties: []
@@ -15411,6 +15667,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL2C_READ_32_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL2C_READ_32_REQ,sum)
     - name: GL2C_READ_64_REQ
       description: ''
@@ -15424,6 +15685,12 @@ rocprofiler-sdk:
             - gfx1171
           block: GL2C
           event: 74
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: GL2C
+          event: 70
     - name: GL2C_READ_64_REQ_sum
       description: ''
       properties: []
@@ -15434,6 +15701,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(GL2C_READ_64_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(GL2C_READ_64_REQ,sum)
     - name: GL2C_READ_sum
       description: ''
@@ -15576,6 +15848,11 @@ rocprofiler-sdk:
             - gfx1170
             - gfx1171
           expression: reduce(SQC_DCACHE_HITS,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          expression: reduce(SQC_DCACHE_HITS,sum)
     - name: SQC_DCACHE_INFLIGHT_LEVEL
       description: Level count total outstanding transactions in data cache (per-SQ, 
         nondeterministic)
@@ -15611,6 +15888,11 @@ rocprofiler-sdk:
             - gfx1170
             - gfx1171
           expression: reduce(SQC_DCACHE_MISSES,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          expression: reduce(SQC_DCACHE_MISSES,sum)
     - name: SQC_DCACHE_REQ_sum
       description: ''
       properties: []
@@ -15621,6 +15903,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(SQC_DCACHE_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(SQC_DCACHE_REQ,sum)
     - name: SQC_ICACHE_BUSY_CYCLES_sum
       description: ''
@@ -15727,6 +16014,11 @@ rocprofiler-sdk:
             - gfx1170
             - gfx1171
           expression: reduce(SQC_TC_DATA_READ_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          expression: reduce(SQC_TC_DATA_READ_REQ,sum)
     - name: SQC_TC_INST_REQ_sum
       description: ''
       properties: []
@@ -15737,6 +16029,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(SQC_TC_INST_REQ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(SQC_TC_INST_REQ,sum)
     - name: SQ_BUSY_CYCLES_avr
       description: SQ_BUSY_CYCLES averaged over SQ (shader engine) instances. The Shader Processor 
@@ -15778,6 +16075,12 @@ rocprofiler-sdk:
             - gfx1250
           block: SQ
           event: 64
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: SQ
+          event: 39
     - name: SQ_INSTS_ALL_sum
       description: ''
       properties: []
@@ -15788,6 +16091,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(SQ_INSTS_ALL,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(SQ_INSTS_ALL,sum)
     - name: SQ_INSTS_DUAL_VALU_WAVE32_sum
       description: ''
@@ -15869,6 +16177,12 @@ rocprofiler-sdk:
             - gfx1171
           block: SQ
           event: 69
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: SQ
+          event: 57
     - name: SQ_INSTS_INTERNAL_sum
       description: ''
       properties: []
@@ -15879,6 +16193,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(SQ_INSTS_INTERNAL,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(SQ_INSTS_INTERNAL,sum)
     - name: SQ_INSTS_LDS_DIRECT_LOAD
       description: ''
@@ -16020,6 +16339,12 @@ rocprofiler-sdk:
             - gfx1171
           block: SQ
           event: 182
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: SQ
+          event: 176
     - name: SQ_INSTS_VALU_DP_sum
       description: ''
       properties: []
@@ -16030,6 +16355,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(SQ_INSTS_VALU_DP,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(SQ_INSTS_VALU_DP,sum)
     - name: SQ_INSTS_VALU_TRANS
       description: Number transcendental VALU instructions issued {emulated}
@@ -16252,6 +16582,12 @@ rocprofiler-sdk:
             - gfx1171
           block: TCP
           event: 30
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: TCP
+          event: 30
     - name: TCP_GL1_REQ_READ_128B
       description: ''
       properties: []
@@ -16286,6 +16622,11 @@ rocprofiler-sdk:
             - gfx1170
             - gfx1171
           expression: reduce(TCP_GL1_REQ_READ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          expression: reduce(TCP_GL1_REQ_READ,sum)
     - name: TCP_GL1_REQ_WRITE
       description: ''
       properties: []
@@ -16298,6 +16639,12 @@ rocprofiler-sdk:
             - gfx1171
           block: TCP
           event: 33
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: TCP
+          event: 33
     - name: TCP_GL1_REQ_WRITE_sum
       description: ''
       properties: []
@@ -16308,6 +16655,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(TCP_GL1_REQ_WRITE,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(TCP_GL1_REQ_WRITE,sum)
     - name: TCP_GL1_TCP_BACK_PRESSURE
       description: ''
@@ -16355,6 +16707,12 @@ rocprofiler-sdk:
             - gfx1171
           block: TCP
           event: 10
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: TCP
+          event: 10
     - name: TCP_REQ_READ_sum
       description: ''
       properties: []
@@ -16365,6 +16723,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(TCP_REQ_READ,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(TCP_REQ_READ,sum)
     - name: TCP_REQ_WRITE
       description: ''
@@ -16378,6 +16741,12 @@ rocprofiler-sdk:
             - gfx1171
           block: TCP
           event: 14
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
+          block: TCP
+          event: 14
     - name: TCP_REQ_WRITE_sum
       description: ''
       properties: []
@@ -16388,6 +16757,11 @@ rocprofiler-sdk:
             - gfx1152
             - gfx1170
             - gfx1171
+          expression: reduce(TCP_REQ_WRITE,sum)
+        - architectures:
+            - gfx12
+            - gfx1200
+            - gfx1201
           expression: reduce(TCP_REQ_WRITE,sum)
     - name: TCP_REQ_sum
       description: ''
