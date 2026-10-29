@@ -806,6 +806,7 @@ def test_construct_roof_invalid_matrix_only_peak_returns_empty_geometry(
 
     assert graph_points == {
         "hbm": [],
+        "gddr": [],
         "l2": [],
         "l1": [],
         "l0": [],

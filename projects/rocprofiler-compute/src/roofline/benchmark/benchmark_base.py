@@ -471,8 +471,11 @@ class Bench_base(ABC):
 
         event_ms = total_bytes / mean / 1e6
 
+        # CDNA parts call this roof HBM. A subclass can rename the same
+        # streaming read, for example gfx1201's GDDR.
+        memory_name = getattr(self, "device_memory_name", "HBM")
         print(
-            f"HBM BW, GPU ID: {device}, workgroupSize:{workgroup_size}, "
+            f"{memory_name} BW, GPU ID: {device}, workgroupSize:{workgroup_size}, "
             f"workgroups:{workgroups}, experiments:{num_experiments}, "
             f"traffic:{total_bytes} bytes, duration:{event_ms:.1f} ms, "
             f"mean:{mean:.1f} GB/sec, stdev:{stdev:.1f} GB/sec"

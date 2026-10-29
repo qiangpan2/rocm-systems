@@ -512,6 +512,36 @@ mi_gpu_spec:
               physical: 6402
 
   #########################################################
+  # RDNA4 / gfx120. PMC widths are common to the family
+  # (GFX120_PERFMON in gfx120_common.py). Each gpu_arch below is one
+  # model path; gfx1201 stays gfx1201 and is not aliased to gfx120.
+  # gfx1201 L2 instances: gfx1201::Gl2cCounterBlockNumInstances (32).
+  - gpu_series: rdna4
+    gpu_archs:
+      - gpu_arch: gfx1201
+        perfmon_config:
+          SQ: 16
+          TA: 2
+          GRBM: 2
+          TCP: 4
+          SPI: 6
+          GL1A: 4
+          GL1C: 4
+          GL2A: 4
+          GL2C: 4
+          GCEA: 2
+        models:
+          - gpu_model: rdna4_r9700
+            design:
+              # L0 bytes are 64 B times TCP read+write requests. GDDR bytes are
+              # the 32/64/128 B EA read buckets. R9700 has no HBM. L1 is not
+              # benchmarked, and L2 has no request-sized counter that stays
+              # under the GDDR roof.
+              memory_levels: ["L0", "GDDR"]
+            chip_ids:
+              physical: 30033 # 0x7551 AMD Radeon AI PRO R9700
+
+  #########################################################
   # gfx1250 family
   - gpu_series: gfx1250_series
     gpu_archs:

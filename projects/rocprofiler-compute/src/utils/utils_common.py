@@ -2,6 +2,7 @@
 # SPDX-License-Identifier:  MIT
 
 import argparse
+import copy
 import csv
 import ctypes
 import errno
@@ -1103,6 +1104,26 @@ def print_status(msg: str) -> None:
     console_log(msg)
     console_log("~" * (msg_length + 1))
     console_log("")
+
+
+def metrics_config_for_arch(sdk_config: dict[str, Any], arch: str) -> dict[str, Any]:
+    """Return SDK counter config for one agent architecture.
+
+    gfx1250 keeps SQG_LEVEL_WGP_ACTIVE_ACCUM. Every other architecture gets a
+    deep copy whose counter list drops only that name, so the caller's dict
+    stays intact. The installed SDK builds an AST for every architecture in
+    the file and aborts on accumulate() for block SQG.
+    """
+    if arch == "gfx1250":
+        return sdk_config
+    filtered = copy.deepcopy(sdk_config)
+    filtered["rocprofiler-sdk"]["counters"] = [
+        counter
+        for counter in filtered["rocprofiler-sdk"]["counters"]
+        if not isinstance(counter, dict)
+        or counter.get("name") != "SQG_LEVEL_WGP_ACTIVE_ACCUM"
+    ]
+    return filtered
 
 
 def create_temp_rocprofiler_metrics_path(sdk_config: dict[str, Any]) -> str:

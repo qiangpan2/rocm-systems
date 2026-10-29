@@ -1,0 +1,91 @@
+# =============================================================================
+# gfx120 kernel counters, on the gfx1201 model path
+# =============================================================================
+# The formulas are common gfx120 metrics. This directory stays gfx1201.
+# Formulas use only counters whose profile config was accepted on gfx1201.
+# SQ_INSTS_VALU, GRBM_GUI_ACTIVE, GL2C_HIT, GL2C_MC_WRREQ, GL1C_REQ,
+# GCEA_SARB_BUSY, and GL1C_REQ_MISS are omitted.
+
+Panel Config:
+  id: 200
+  title: Kernel Analysis
+  data source:
+  - metric_table:
+      id: 201
+      title: "Kernel Counters"
+      header:
+        metric: Metric
+        value: Value
+        unit: Unit
+      metric:
+        Instructions Issued:
+          value: SUM(SQ_INSTS_ALL_sum)
+          unit: Instructions
+        Scalar Data Cache Hits:
+          value: SUM(SQC_DCACHE_HITS_sum)
+          unit: Requests
+        Scalar Data Cache Misses:
+          value: SUM(SQC_DCACHE_MISSES_sum)
+          unit: Requests
+        Scalar Data Cache Requests:
+          value: SUM(SQC_DCACHE_REQ_sum)
+          unit: Requests
+        L0 Read Requests:
+          value: SUM(TCP_REQ_READ_sum)
+          unit: Requests
+        L0 Write Requests:
+          value: SUM(TCP_REQ_WRITE_sum)
+          unit: Requests
+        L1 Utilization:
+          value: 100 * SUM(GL1C_BUSY_sum) / SUM(GL1C_CYCLE_sum)
+          unit: Percent
+        L2 Busy Cycles:
+          value: SUM(GL2C_BUSY_sum)
+          unit: Cycles
+        L2 Cycles:
+          value: SUM(GL2C_CYCLE_sum)
+          unit: Cycles
+        L2 Utilization:
+          value: 100 * SUM(GL2C_BUSY_sum) / SUM(GL2C_CYCLE_sum)
+          unit: Percent
+        Off-chip 32B Reads:
+          value: SUM(GL2C_EA_RDREQ_32B_sum)
+          unit: Requests
+        Off-chip 64B Reads:
+          value: SUM(GL2C_EA_RDREQ_64B_sum)
+          unit: Requests
+        Off-chip 128B Reads:
+          value: SUM(GL2C_EA_RDREQ_128B_sum)
+          unit: Requests
+        Off-chip Read Bytes:
+          value: 32 * SUM(GL2C_EA_RDREQ_32B_sum) + 64 * SUM(GL2C_EA_RDREQ_64B_sum) + 128 * SUM(GL2C_EA_RDREQ_128B_sum)
+          unit: Bytes
+  metrics_description:
+    Instructions Issued: >
+      All instructions issued by the SQ, including internal instructions.
+    Scalar Data Cache Hits: >
+      Scalar data cache hits.
+    Scalar Data Cache Misses: >
+      Scalar data cache misses.
+    Scalar Data Cache Requests: >
+      Scalar data cache requests.
+    L0 Read Requests: >
+      Read requests from the TCP vector cache.
+    L0 Write Requests: >
+      Write requests from the TCP vector cache.
+    L1 Utilization: >
+      GL1 busy cycles divided by GL1 cycles.
+    L2 Busy Cycles: >
+      Cycles with a request pending in the GL2 cache.
+    L2 Cycles: >
+      GL2 cycle count used as the utilization denominator.
+    L2 Utilization: >
+      GL2 busy cycles divided by GL2 cycles.
+    Off-chip 32B Reads: >
+      Off-chip GL2/EA read requests with 32-byte transfer size.
+    Off-chip 64B Reads: >
+      Off-chip GL2/EA read requests with 64-byte transfer size.
+    Off-chip 128B Reads: >
+      Off-chip GL2/EA read requests with 128-byte transfer size.
+    Off-chip Read Bytes: >
+      Bytes from 32-byte, 64-byte, and 128-byte GL2C/EA read requests.

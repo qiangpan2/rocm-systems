@@ -4,8 +4,10 @@
 import functools
 import os
 import sys
+import sysconfig
 from collections.abc import Iterator
 from contextlib import contextmanager
+from pathlib import Path
 from typing import Any, Callable, Optional
 
 from utils.logger import (
@@ -17,23 +19,59 @@ from utils.logger import (
 _amdsmi_module = None
 
 
+def _amdsmi_candidate_dirs() -> list[str]:
+    """Directories that may contain the amdsmi package, in search order.
+
+    ``$ROCM_PATH/share/amd_smi`` is first when ``ROCM_PATH`` is set, then
+    ``/opt/rocm/share/amd_smi``, then the TheRock wheel layout
+    ``<purelib>/_rocm_sdk_core/share/amd_smi``.
+    """
+    candidates: list[str] = []
+    rocm_path = os.getenv("ROCM_PATH")
+    if rocm_path:
+        candidates.append(str(Path(rocm_path) / "share" / "amd_smi"))
+    candidates.append("/opt/rocm/share/amd_smi")
+    candidates.append(sysconfig.get_path("purelib") + "/_rocm_sdk_core/share/amd_smi")
+    return candidates
+
+
+def _contains_amdsmi_package(path: str) -> bool:
+    """True when path is a directory containing an amdsmi package."""
+    return (Path(path) / "amdsmi" / "__init__.py").is_file()
+
+
 # Ignore undefined name amdsmi since it's dynamically imported
 def import_amdsmi_module() -> "amdsmi":  # noqa: F821
     """
     Dynamically import the amdsmi module because we only
     want profile time dependency on amdsmi.
     Uses global cache to avoid repeated imports.
+
+    The first existing candidate directory that contains an amdsmi package
+    is inserted on ``sys.path`` and imported. A missing earlier directory
+    does not stop the search. ``console_error`` runs only after every
+    candidate fails.
     """
     global _amdsmi_module
 
     if not _amdsmi_module:
-        sys.path.insert(0, os.getenv("ROCM_PATH", "/opt/rocm") + "/share/amd_smi")
-        try:
-            import amdsmi
+        last_error: Optional[ImportError] = None
+        for candidate in _amdsmi_candidate_dirs():
+            if not _contains_amdsmi_package(candidate):
+                continue
+            sys.path.insert(0, candidate)
+            try:
+                import amdsmi
 
-            _amdsmi_module = amdsmi
-        except ImportError as e:
-            console_warning(f"Unhandled import error: {e}")
+                _amdsmi_module = amdsmi
+                break
+            except ImportError as e:
+                last_error = e
+                sys.path.remove(candidate)
+                sys.modules.pop("amdsmi", None)
+        if not _amdsmi_module:
+            if last_error is not None:
+                console_warning(f"Unhandled import error: {last_error}")
             console_error("Failed to import the amdsmi Python library.")
 
     return _amdsmi_module

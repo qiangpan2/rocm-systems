@@ -446,6 +446,7 @@ class RocProfCompute_Base:
                 workload_dir=args.output_directory,
                 ml_api_trace_enabled=bool(getattr(self, "_selected_frameworks", set())),
                 retain_rocpd_output=args.retain_rocpd_output,
+                arch=self._soc.get_arch(),
             )
 
             end_time = time.time()
@@ -626,11 +627,13 @@ class RocProfCompute_Base:
                 return str(native_tool_finder.get_artifact_path())
             return None
         except Exception:
-            console_error(
+            console_warning(
+                "profiling",
                 "Failed to use native counter collection tool.\n"
                 "Please ensure the native tool library is installed "
-                "or source files are present."
+                "or source files are present.",
             )
+            return None
 
     def __is_native_tool_requested(self, args: argparse.Namespace) -> bool:
         return self.__profiler == "rocprofiler-sdk" and not args.no_native_tool

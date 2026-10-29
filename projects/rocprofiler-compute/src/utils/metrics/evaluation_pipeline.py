@@ -65,6 +65,7 @@ def create_empirical_peaks_dict(empirical_peaks_df: pd.DataFrame) -> dict[str, f
             "WMMAF8Flops",
             "WMMAI8Ops",
             "HBMBw",
+            "GDDRBw",
             "MALLBw",
             "L2Bw",
             "L1Bw",
@@ -245,7 +246,7 @@ def eval_metric(
     #     )
     # )
     for df_id, df in dfs.items():
-        if dfs_type[df_id] == "metric_table":
+        if dfs_type.get(df_id) == "metric_table":
             for row_id, row in df.iterrows():
                 for expr in df.columns:
                     if expr in SUPPORTED_FIELD and expr.lower() not in {
@@ -299,7 +300,7 @@ def compute_pct_of_peak(dfs: dict, dfs_type: dict) -> None:
     """Compute and store 100 * value / peak for each row where pct_of_peak is True."""
     pct_of_peak_col = "Percent of Peak"
     for df_id, df in dfs.items():
-        if dfs_type[df_id] != "metric_table":
+        if dfs_type.get(df_id) != "metric_table":
             continue
         if pct_of_peak_col not in df.columns:
             continue
@@ -334,7 +335,7 @@ def validate_dual_issue_metrics(
     )
 
     for df_id, df in dfs.items():
-        if dfs_type[df_id] != "metric_table":
+        if dfs_type.get(df_id) != "metric_table":
             continue
         if "Metric" not in df.columns or "Value" not in df.columns:
             continue

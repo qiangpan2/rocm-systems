@@ -30,6 +30,7 @@ from utils.utils_common import (
     capture_subprocess_output,
     create_temp_rocprofiler_metrics_path,
     get_rocprof_cmd,
+    metrics_config_for_arch,
     parse_pmc_perf,
     perform_attach_detach,
 )
@@ -161,6 +162,7 @@ def run_prof(
     ml_api_trace_enabled: bool = False,
     retain_rocpd_output: bool = False,
     extra_env: Optional[dict[str, str]] = None,
+    arch: str = "",
 ) -> None:
     multiple_files = isinstance(fnames, list)
     if multiple_files and (
@@ -230,9 +232,9 @@ def run_prof(
                 sdk_config["rocprofiler-sdk"]["counters"].extend(
                     yaml.safe_load(file)["rocprofiler-sdk"]["counters"]
                 )
-    # Set counter definitions
+    # Set counter definitions. Non-gfx1250 agents cannot load SQG accumulate().
     new_env["ROCPROFILER_METRICS_PATH"] = create_temp_rocprofiler_metrics_path(
-        sdk_config
+        metrics_config_for_arch(sdk_config, arch)
     )
     console_debug(
         "Adding env var for counter definitions: "

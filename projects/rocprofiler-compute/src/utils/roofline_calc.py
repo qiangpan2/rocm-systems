@@ -21,7 +21,7 @@ from utils.utils_common import _workload_base_dir
 XMIN = 0.01
 XMAX_DEFAULT = 1000.0
 
-CACHE_LEVELS = ["ai_l0", "ai_l1", "ai_l2", "ai_hbm", "ai_lds"]
+CACHE_LEVELS = ["ai_l0", "ai_l1", "ai_l2", "ai_hbm", "ai_gddr", "ai_lds"]
 
 
 # Enum class representing support of VALU and Matrix Operations
@@ -137,6 +137,19 @@ SUPPORTED_DATATYPES: dict[str, dict[str, OpsSupport]] = {
         "I32": OpsSupport.VALU,
         "I64": OpsSupport.VALU,
     },
+    "gfx1201": {
+        "FP4": OpsSupport.MATRIX,
+        "FP6": OpsSupport.MATRIX,
+        "FP8": OpsSupport.MATRIX,
+        "MXFP8": OpsSupport.MATRIX,
+        "FP16": OpsSupport.VALU | OpsSupport.MATRIX,
+        "BF16": OpsSupport.MATRIX,
+        "FP32": OpsSupport.VALU | OpsSupport.MATRIX,
+        "FP64": OpsSupport.VALU,
+        "I8": OpsSupport.VALU | OpsSupport.MATRIX,
+        "I32": OpsSupport.VALU,
+        "I64": OpsSupport.VALU,
+    },
 }
 
 
@@ -146,6 +159,7 @@ _METRIC_TO_AI_FIELD = {
     "AI L1": "ai_l1",
     "AI L2": "ai_l2",
     "AI HBM": "ai_hbm",
+    "AI GDDR": "ai_gddr",
     "AI LDS": "ai_lds",
 }
 
@@ -166,6 +180,7 @@ class PlotPoints:
     ai_l1: list[list[float]]
     ai_l2: list[list[float]]
     ai_hbm: list[list[float]]
+    ai_gddr: list[list[float]]
     ai_lds: list[list[float]]
     kernelNames: list[str]
     counts: list[Optional[float]]
@@ -181,6 +196,7 @@ class PlotPoints:
             ai_l1=[[], []],
             ai_l2=[[], []],
             ai_hbm=[[], []],
+            ai_gddr=[[], []],
             ai_lds=[[], []],
             kernelNames=[],
             counts=[],
@@ -195,6 +211,7 @@ class GraphPoints:
     """Data structure for storing roofline graph ceiling points."""
 
     hbm: list[Union[list[float], float, None]]
+    gddr: list[Union[list[float], float, None]]
     l2: list[Union[list[float], float, None]]
     l1: list[Union[list[float], float, None]]
     l0: list[Union[list[float], float, None]]
@@ -207,6 +224,7 @@ class GraphPoints:
         """Create empty graph points structure."""
         return cls(
             hbm=[None, None, None],
+            gddr=[None, None, None],
             l2=[None, None, None],
             l1=[None, None, None],
             l0=[None, None, None],
@@ -290,6 +308,7 @@ def calc_ceilings(
     # TODO: This is where filtering by memory level will need to occur for standalone
     graph_points: dict[str, list[Union[list[float], float, None]]] = {
         "hbm": [],
+        "gddr": [],
         "l2": [],
         "l1": [],
         "l0": [],

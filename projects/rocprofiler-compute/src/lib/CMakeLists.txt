@@ -33,8 +33,12 @@ if(NOT TARGET libdw::libdw)
     add_library(libdw::libdw ALIAS PkgConfig::libdw)
 endif()
 
-find_package(rocprofiler-sdk REQUIRED CONFIG)
-find_package(amd_comgr REQUIRED CONFIG)
+find_package(rocprofiler-sdk CONFIG QUIET)
+find_package(amd_comgr CONFIG QUIET)
+if(NOT rocprofiler-sdk_FOUND OR NOT amd_comgr_FOUND)
+    include(${CMAKE_CURRENT_LIST_DIR}/cmake/therock_imports.cmake)
+    _rocprof_compute_import_therock_sdk()
+endif()
 
 # pkg-config zlib: find_package(ZLIB) can pick up ROCm headers without libz.
 pkg_check_modules(zlib REQUIRED IMPORTED_TARGET zlib)

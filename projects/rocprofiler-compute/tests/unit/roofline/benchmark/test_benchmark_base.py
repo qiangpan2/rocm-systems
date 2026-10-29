@@ -19,10 +19,9 @@ from unittest import mock
 
 import pytest
 
-import roofline.benchmark.benchmark_base as benchmark_base
-import utils.utils_profile as utils_profile
-
 try:
+    import roofline.benchmark.benchmark_base as benchmark_base
+    import utils.utils_profile as utils_profile
     from roofline.benchmark.gfx9.benchmark_gfx90a import Bench_gfx90a
     from roofline.benchmark.gfx9.benchmark_gfx942 import Bench_gfx942
     from roofline.benchmark.gfx9.benchmark_gfx950 import Bench_gfx950
@@ -30,6 +29,7 @@ try:
     from roofline.benchmark.gfx11.benchmark_gfx1151 import Bench_gfx1151
     from roofline.benchmark.gfx11.benchmark_gfx1152 import Bench_gfx1152
     from roofline.benchmark.gfx11.benchmark_gfx1153 import Bench_gfx1153
+    from roofline.benchmark.gfx12.benchmark_gfx1201 import Bench_gfx1201
     from roofline.benchmark.gfx12.benchmark_gfx1250 import Bench_gfx1250
 except OSError as hip_load_error:
     # hip_interface and hiprtc_interface dlopen the ROCm libraries at import.
@@ -50,6 +50,7 @@ BENCH_CLASSES = [
     Bench_gfx1151,
     Bench_gfx1152,
     Bench_gfx1153,
+    Bench_gfx1201,
     Bench_gfx1250,
 ]
 

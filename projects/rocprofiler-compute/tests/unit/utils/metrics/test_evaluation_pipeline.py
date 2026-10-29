@@ -142,6 +142,29 @@ class TestEvaluationPipeline:
             )
         assert metric_df.loc["1.1.0", "Value"] == 450
 
+    def test_eval_metric_skips_dataframe_without_type(self):
+        """A dataframe with no dfs_type entry is skipped; metric tables still evaluate."""
+        metric_df, dfs, dfs_type, dfs_expressions, sys_info, raw_pmc_df = (
+            self._build_eval_metric_inputs()
+        )
+        # Pandas 3 stores the expression column as dtype str and rejects the
+        # numeric result. Object dtype keeps the metric-table write-back path
+        # observable without changing production evaluation.
+        metric_df = metric_df.astype(object)
+        dfs = {1: pd.DataFrame({"Kernel_Name": ["burn"]}), 201: metric_df}
+        dfs_type = {201: "metric_table"}
+        dfs_expressions = {201: dfs_expressions[1]}
+        eval_metric(
+            dfs,
+            dfs_type,
+            dfs_expressions,
+            sys_info,
+            pd.DataFrame(),
+            raw_pmc_df,
+            debug=False,
+        )
+        assert metric_df.loc["1.1.0", "Value"] == 450
+
     def test_eval_metric_resolves_accum_alias_column_end_to_end(self):
         """eval_metric resolves YAML formulas that reference ACCUM alias columns."""
         fixture = self._build_eval_metric_inputs(

@@ -1,0 +1,84 @@
+# =============================================================================
+# gfx1201 Roofline Performance Metrics
+# =============================================================================
+# Off-chip reads use the EA size buckets whose counts match the working set.
+# GL2C_EA_RDREQ_96B is left out: on an R9700 it incremented once per GL2C busy
+# cycle, and weighting it by 96 reported several times the GDDR6 peak.
+# Uncached/compressed 32B reads and the published 256B id are also left out.
+# Each VALU instruction counts as one operation per lane. An FMA is one
+# instruction. Time is nanoseconds, so bytes/ns is GB/s and lane-insts/ns is
+# Gop/s. The plot point uses that single division.
+# =============================================================================
+
+Panel Config:
+  id: 400
+  title: Roofline
+  description: |-
+    Roofline for gfx1201. Achieved compute is VALU instructions per lane.
+    Achieved traffic is L0 requests and sized EA reads.
+
+  data source:
+
+  - metric_table:
+      id: 401
+      title: Roofline Performance Rates
+      cli_style: Roofline
+      tui_style: Roofline
+      header:
+        metric: Metric
+        value: Value
+        unit: Unit
+        peak: Peak (Empirical)
+      metric:
+        VALU FLOPs:
+          value: SUM($wave_size * SQ_INSTS_VALU_sum) / SUM(End_Timestamp - Start_Timestamp)
+          unit: GFLOP/s
+          peak: $FP32Flops_empirical_peak
+        L0 Cache Bandwidth:
+          value: 64 * SUM(TCP_REQ_READ_sum + TCP_REQ_WRITE_sum) / SUM(End_Timestamp - Start_Timestamp)
+          unit: GB/s
+          peak: $L0Bw_empirical_peak
+        GDDR Read Bandwidth:
+          value: (32 * SUM(GL2C_EA_RDREQ_32B_sum) + 64 * SUM(GL2C_EA_RDREQ_64B_sum) + 128 * SUM(GL2C_EA_RDREQ_128B_sum)) / SUM(End_Timestamp - Start_Timestamp)
+          unit: GB/s
+          peak: $GDDRBw_empirical_peak
+
+  - metric_table:
+      id: 402
+      title: Roofline Plot Points
+      cli_style: Roofline
+      tui_style: Roofline
+      header:
+        metric: Metric
+        value: Value
+        unit: Unit
+      metric:
+        AI L0:
+          value: SUM($wave_size * SQ_INSTS_VALU_sum) / (64 * SUM(TCP_REQ_READ_sum + TCP_REQ_WRITE_sum))
+          unit: FLOPs/Byte
+        AI GDDR:
+          value: SUM($wave_size * SQ_INSTS_VALU_sum) / (32 * SUM(GL2C_EA_RDREQ_32B_sum) + 64 * SUM(GL2C_EA_RDREQ_64B_sum) + 128 * SUM(GL2C_EA_RDREQ_128B_sum))
+          unit: FLOPs/Byte
+        Performance (GFLOPs):
+          value: SUM($wave_size * SQ_INSTS_VALU_sum) / SUM(End_Timestamp - Start_Timestamp)
+          unit: GFLOP/s
+
+  metrics_description:
+    VALU FLOPs: >-
+      VALU instructions issued, times the wave size, per nanosecond. Each
+      instruction counts as one operation per lane. The peak is the empirical
+      FP32 VALU roof.
+    L0 Cache Bandwidth: >-
+      TCP read and write requests, 64 bytes each. On a coalesced 128-byte
+      wave access this is two requests.
+    GDDR Read Bandwidth: >-
+      Bytes from 32-byte, 64-byte, and 128-byte GL2C/EA read requests. The
+      peak is the read-only GDDR streaming benchmark. The 96-byte EA event
+      is omitted.
+    AI L0: >-
+      VALU lane instructions per byte of TCP read and write traffic.
+    AI GDDR: >-
+      VALU lane instructions per byte of sized GDDR reads.
+    Performance (GFLOPs): >-
+      Same VALU lane-instruction rate as VALU FLOPs. This is the vertical
+      position of the kernel on the roofline.

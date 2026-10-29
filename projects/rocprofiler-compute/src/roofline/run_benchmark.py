@@ -31,8 +31,21 @@ BENCHMARKING_SUPPORTED = [
     "gfx1151",
     "gfx1152",
     "gfx1153",
+    "gfx1201",
     "gfx1250",
 ]
+
+
+def roofline_package(gfx_device: str) -> str:
+    """Return the benchmark package directory for a device name.
+
+    gfx1200 and gfx1201 live under gfx12. Every other device uses the name
+    with its last two characters removed, which is gfx12 for gfx1250, gfx11
+    for gfx1151, and gfx9 for gfx942.
+    """
+    if gfx_device in ("gfx1200", "gfx1201"):
+        return "gfx12"
+    return gfx_device[:-2]
 
 
 def run_roofline_benchmark(
@@ -56,8 +69,9 @@ def load_bench(device_id: int, cache_sizes: dict) -> object:
         if gfx_device == "gfx940" or gfx_device == "gfx941":
             gfx_device = "gfx942"
 
-        # Get the gfx architecture of the device
-        gfx_arch = gfx_device[:-2]
+        # Package directory is not always the device name without its
+        # last two characters. gfx1201 is the gfx12 package.
+        gfx_arch = roofline_package(gfx_device)
 
         # Dynamically import the bench class module
         bench_module = importlib.import_module(

@@ -60,6 +60,7 @@ TRACE_COLORS: dict[str, dict[str, str]] = {
     "l1": {"html": "#0072B2", "cli": "red+"},
     "l2": {"html": "#009E73", "cli": "green+"},
     "hbm": {"html": "#D55E00", "cli": "blue+"},
+    "gddr": {"html": "#D55E00", "cli": "blue+"},
     "lds": {"html": "#E69F00", "cli": "orange+"},
     "valu": {"html": "#CC79A7", "cli": "white"},
     "matrix_ops": {"html": "#56B4E9", "cli": "magenta+"},

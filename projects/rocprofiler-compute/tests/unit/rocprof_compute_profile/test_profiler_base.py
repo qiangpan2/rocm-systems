@@ -1196,13 +1196,13 @@ def _pc_native_tool_path(mock_pc_options):
             None,
             id="rocprofv3_threads_none",
         ),
-        # Native finder failure: console_error fires.
+        # Native finder failure: warn and keep profiling without the tool.
         pytest.param(
             dict(filter_blocks=["2", "21"], perfmon_files=1, native_finder_raises=True),
-            None,
-            None,
+            False,
             True,
-            id="native_resolution_failure_errors",
+            False,
+            id="native_resolution_failure_continues",
         ),
     ],
 )
@@ -1215,7 +1215,7 @@ def test_run_profiling_native_tool_path(
     expect_error,
 ):
     """run_profiling() threads native_tool_path only on the supported sdk path,
-    runs the counter pass for non-PC blocks, and errors on finder failure."""
+    runs the counter pass for non-PC blocks, and continues when the finder fails."""
     profiler, mocks = _make_sdk_run_profiling_profiler(tmp_path, monkeypatch, **kwargs)
     profiler.run_profiling(version="1.0.0", prog="rocprof-compute")
 
@@ -1226,3 +1226,22 @@ def test_run_profiling_native_tool_path(
         assert mocks.profile.called is expect_profile_called
     if expect_error is not None:
         assert mocks.console_error.called is expect_error
+
+
+def test_native_tool_build_failure_returns_none():
+    soc = SimpleNamespace(_mspec=SimpleNamespace(rocm_version="7.0.0"))
+    args = _make_sanitize_args(["app"], no_native_tool=False, attach_pid=None)
+    profiler = rocprofiler_sdk_profiler(args, profiler_mode="rocprofiler-sdk", soc=soc)
+    with patch(
+        "rocprof_compute_profile.profiler_base.NativeToolFinder"
+    ) as finder, patch(
+        "rocprof_compute_profile.profiler_base.console_error"
+    ) as console_error, patch(
+        "rocprof_compute_profile.profiler_base.console_warning"
+    ) as console_warning:
+        finder.return_value.get_artifact_path.side_effect = RuntimeError("cmake failed")
+        path = profiler._RocProfCompute_Base__get_native_tool_path(args)
+    assert path is None
+    console_error.assert_not_called()
+    warning = " ".join(str(part) for part in console_warning.call_args.args)
+    assert "native counter collection tool" in warning

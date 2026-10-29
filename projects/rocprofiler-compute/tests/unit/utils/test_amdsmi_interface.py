@@ -4,6 +4,7 @@
 """Unit tests for utils/amdsmi_interface.py."""
 
 import functools
+import sys
 from unittest import mock
 
 from utils.amdsmi_interface import _per_device_query
@@ -237,3 +238,38 @@ def test_per_device_query_returns_default_and_logs_last_error_on_all_failure():
                 warning_message = warn_mock.call_args[0][0]
                 assert "test label" in warning_message
                 assert "boom-d3" in warning_message
+
+
+def test_candidates_include_wheel_when_rocm_path_unset(monkeypatch):
+    from utils.amdsmi_interface import _amdsmi_candidate_dirs
+
+    monkeypatch.delenv("ROCM_PATH", raising=False)
+    dirs = _amdsmi_candidate_dirs()
+    assert dirs[0] == "/opt/rocm/share/amd_smi"
+    assert dirs[1].endswith("/_rocm_sdk_core/share/amd_smi")
+
+
+def test_import_skips_missing_rocm_path(monkeypatch, tmp_path):
+    from utils.amdsmi_interface import import_amdsmi_module
+
+    wheel = tmp_path / "share" / "amd_smi"
+    pkg = wheel / "amdsmi"
+    pkg.mkdir(parents=True)
+    (pkg / "__init__.py").write_text("AMDSMI_FAKE = True\n")
+    monkeypatch.setenv("ROCM_PATH", str(tmp_path / "missing-rocm"))
+    monkeypatch.setattr(
+        "utils.amdsmi_interface._amdsmi_candidate_dirs",
+        lambda: [str(tmp_path / "missing-rocm" / "share" / "amd_smi"), str(wheel)],
+    )
+    monkeypatch.setattr("utils.amdsmi_interface._amdsmi_module", None)
+    saved_module = sys.modules.pop("amdsmi", None)
+    try:
+        module = import_amdsmi_module()
+        assert module.AMDSMI_FAKE is True
+    finally:
+        sys.modules.pop("amdsmi", None)
+        if saved_module is not None:
+            sys.modules["amdsmi"] = saved_module
+        wheel_dir = str(wheel)
+        while wheel_dir in sys.path:
+            sys.path.remove(wheel_dir)
